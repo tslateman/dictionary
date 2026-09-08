@@ -1,0 +1,1086 @@
+<title>A Dictionary of Agentic Coding</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Archivo:wght@500;600;700&display=swap">
+<style>
+  :root {
+    --paper: #f6f4ef;
+    --ink: #211f1c;
+    --muted: #6f6758;
+    --accent: #7c2f2a;
+    --rule: #ddd7cb;
+    --panel: #fcfbf8;
+    --bubble: #2a2723;
+    --bubble-text: #f3efe8;
+    --pill: #efece4;
+    --s1: #8a3d37;
+    --s2: #46587a;
+    --s3: #66703c;
+    --s4: #a8742b;
+    --s5: #33685f;
+    --serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --display: "Fraunces", Georgia, serif;
+    --utility: "Archivo", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #171512;
+      --ink: #e9e4da;
+      --muted: #99917e;
+      --accent: #d9908a;
+      --rule: #322d26;
+      --panel: #1e1b17;
+      --bubble: #e9e4da;
+      --bubble-text: #1e1b17;
+      --pill: #262219;
+      --s1: #d18d86;
+      --s2: #92a7c7;
+      --s3: #aeb378;
+      --s4: #d3a55b;
+      --s5: #7fb0a6;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #171512;
+    --ink: #e9e4da;
+    --muted: #99917e;
+    --accent: #d9908a;
+    --rule: #322d26;
+    --panel: #1e1b17;
+    --bubble: #e9e4da;
+    --bubble-text: #1e1b17;
+    --pill: #262219;
+    --s1: #d18d86;
+    --s2: #92a7c7;
+    --s3: #aeb378;
+    --s4: #d3a55b;
+    --s5: #7fb0a6;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    overflow: hidden;
+  }
+  #graph { position: fixed; inset: 0; }
+  #grain {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.48 0 0 0 0 0.45 0 0 0 0.14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .chrome { position: fixed; z-index: 3; }
+  #brand {
+    top: 1.6rem;
+    left: 1.8rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.01em;
+  }
+  #brand small {
+    display: block;
+    font-family: var(--utility);
+    font-weight: 600;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+  #buttons { top: 1.5rem; right: 1.8rem; display: flex; gap: 0.6rem; }
+  .round {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: var(--panel);
+    color: var(--ink);
+    font: 600 0.95rem var(--utility);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  .round:hover { border-color: var(--muted); }
+  .round:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .round svg { width: 1rem; height: 1rem; stroke: currentColor; fill: none; stroke-width: 2; }
+  #hint {
+    bottom: 1.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font: 500 0.72rem var(--utility);
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 99px;
+    padding: 0.45rem 1rem;
+    white-space: nowrap;
+  }
+  #credit {
+    bottom: 1.6rem;
+    left: 1.8rem;
+    font: 500 0.72rem var(--utility);
+    color: var(--muted);
+  }
+  #credit a { color: inherit; text-underline-offset: 2px; }
+  #credit a:hover { color: var(--accent); }
+  #legend {
+    bottom: 1.6rem;
+    right: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font: 600 0.62rem var(--utility);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  #legend span { display: flex; align-items: center; gap: 0.5em; }
+  .dot {
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+    flex: none;
+  }
+  .dot.ring {
+    background: transparent !important;
+    border: 2px solid var(--muted);
+    box-sizing: border-box;
+  }
+  .dot.square { border-radius: 2px; }
+  #book-index a .dot { margin-right: 0.45em; }
+  #legend .legend-gap { margin-top: 0.45rem; }
+  .loan {
+    font: 600 0.6rem var(--utility);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    border-radius: 99px;
+    padding: 0.12rem 0.5rem;
+    margin-left: 0.6rem;
+    vertical-align: middle;
+  }
+  #search {
+    top: 5.5rem;
+    right: 1.8rem;
+    width: min(21rem, calc(100vw - 3.6rem));
+    display: none;
+  }
+  #search.open { display: block; }
+  #search input {
+    width: 100%;
+    box-sizing: border-box;
+    font: 500 0.9rem var(--utility);
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+  }
+  #search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  #search input::placeholder { color: var(--muted); }
+  #results {
+    margin-top: 0.4rem;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  #results:empty { display: none; }
+  #results button {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    width: 100%;
+    text-align: left;
+    font: 500 0.88rem var(--utility);
+    color: var(--ink);
+    background: none;
+    border: 0;
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+  }
+  #results button:hover, #results button.hot { background: var(--pill); }
+  #overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--paper) 55%, transparent);
+  }
+  #overlay[hidden] { display: none; }
+  #about {
+    max-width: 34rem;
+    margin: 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 2.2rem 2.4rem;
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+  #about h2 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; margin: 0 0 0.8rem; }
+  #about p { margin: 0.7rem 0; }
+  #about a { color: var(--accent); text-underline-offset: 2px; }
+  #panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    width: min(30rem, 100vw);
+    background: var(--panel);
+    border-left: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(102%);
+  }
+  #panel.open { transform: translateX(0); }
+  @media (prefers-reduced-motion: no-preference) {
+    #panel { transition: transform 0.28s ease; }
+  }
+  #close { position: absolute; top: 1.1rem; right: 1.2rem; z-index: 1; }
+  #panel-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2.2rem 2.4rem;
+  }
+  .p-eyebrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font: 600 0.66rem var(--utility);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.2rem 2rem 0.9rem 0;
+    margin-bottom: 1.6rem;
+  }
+  .p-eyebrow .sec { display: flex; align-items: center; gap: 0.6em; }
+  .p-eyebrow .n b { color: var(--ink); }
+  #p-term {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 2.3rem;
+    line-height: 1.05;
+    margin: 0 0 0.7rem;
+    text-wrap: balance;
+  }
+  #p-gloss {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.12rem;
+    color: var(--muted);
+    margin: 0 0 1.6rem;
+    text-wrap: pretty;
+  }
+  .p-label {
+    font: 600 0.66rem var(--utility);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 1.8rem 0 0.7rem;
+  }
+  .bubbles { display: flex; flex-direction: column; gap: 0.55rem; }
+  .bubbles .said, .bubbles .reply {
+    font-family: var(--serif);
+    font-size: 0.98rem;
+    line-height: 1.5;
+    padding: 0.6rem 0.95rem;
+    max-width: 88%;
+    width: fit-content;
+  }
+  .bubbles .said {
+    border: 1px solid var(--rule);
+    border-radius: 12px 12px 12px 3px;
+    background: var(--paper);
+  }
+  .bubbles .reply {
+    margin-left: auto;
+    background: var(--bubble);
+    color: var(--bubble-text);
+    border-radius: 12px 12px 3px 12px;
+  }
+  .prose {
+    font-size: 1.02rem;
+    line-height: 1.62;
+  }
+  .prose p { margin: 0.85rem 0; }
+  .prose a { color: var(--accent); text-underline-offset: 2px; }
+  .prose code {
+    font-family: var(--mono);
+    font-size: 0.82em;
+    background: var(--pill);
+    border-radius: 3px;
+    padding: 0.1em 0.35em;
+  }
+  .table-scroll { overflow-x: auto; margin: 1rem 0; }
+  .prose table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+  .prose th {
+    font: 600 0.62rem var(--utility);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.4rem 0.9rem 0.4rem 0;
+    border-bottom: 1px solid var(--ink);
+  }
+  .prose td { padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  #p-connects { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  #p-connects button {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font: 500 0.82rem var(--utility);
+    color: var(--ink);
+    background: var(--pill);
+    border: 1px solid var(--rule);
+    border-radius: 99px;
+    padding: 0.32rem 0.8rem;
+    cursor: pointer;
+  }
+  #p-connects button:hover { border-color: var(--muted); }
+  #p-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--rule);
+  }
+  #p-nav button {
+    font-family: var(--utility);
+    background: none;
+    border: 0;
+    color: var(--ink);
+    padding: 1rem 1.4rem;
+    cursor: pointer;
+    text-align: left;
+  }
+  #p-nav button + button { text-align: right; border-left: 1px solid var(--rule); }
+  #p-nav button:hover { background: var(--pill); }
+  #p-nav small {
+    display: block;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+  #p-nav .t { font-weight: 600; font-size: 0.9rem; }
+  #book {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    overflow-y: auto;
+    background: var(--paper);
+  }
+  body:not(.book) #book { display: none; }
+  .book-inner {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    column-gap: 4rem;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem 6rem;
+  }
+  .book-head {
+    grid-column: 1 / -1;
+    max-width: 46rem;
+    padding-bottom: 2.4rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 2.6rem;
+  }
+  .book-head h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 2.5rem;
+    line-height: 1.08;
+    margin: 0 0 0.7rem;
+    text-wrap: balance;
+  }
+  .book-head .bh-tag {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin: 0 0 1rem;
+  }
+  .book-head .bh-note { font-size: 0.98rem; margin: 0; }
+  .book-head a { color: var(--accent); text-underline-offset: 2px; }
+  #book-index {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    font-family: var(--utility);
+    padding-bottom: 2rem;
+  }
+  .bi-group { margin-bottom: 1.4rem; }
+  .bi-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  #book-index a {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.2rem 0 0.2rem 0.75rem;
+    border-left: 2px solid transparent;
+  }
+  #book-index a:hover { color: var(--accent); border-left-color: var(--accent); }
+  .book-band {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.55rem;
+    margin: 3.6rem 0 0;
+  }
+  #book-main > section:first-of-type .book-band { margin-top: 0; }
+  .book-band .no {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font: 600 0.68rem var(--utility);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .book-band h2 {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.45rem;
+    margin: 0;
+  }
+  .entry { max-width: 66ch; padding: 2.5rem 0 0.5rem; }
+  .entry + .entry { border-top: 1px solid var(--rule); margin-top: 2.2rem; }
+  .entry h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.12;
+    margin: 0 0 0.35rem;
+  }
+  .entry .gloss {
+    font-style: italic;
+    font-size: 1.08rem;
+    color: var(--muted);
+    margin: 0 0 1.2rem;
+    text-wrap: pretty;
+  }
+  .entry .bubbles { margin-top: 1.4rem; max-width: 34rem; }
+  .entry .e-label {
+    font: 600 0.64rem var(--utility);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 1.6rem 0 0.6rem;
+  }
+  body.book #graph {
+    inset: auto 1.4rem 1.4rem auto;
+    width: 300px;
+    height: 210px;
+    z-index: 6;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  body.book #hint, body.book #legend, body.book #brand, body.book #credit { display: none; }
+  .scene-tooltip:empty { display: none; }
+  .scene-tooltip {
+    font-family: var(--utility) !important;
+    font-size: 0.78rem !important;
+    color: var(--ink) !important;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    padding: 0.35rem 0.6rem;
+    border-radius: 5px;
+    max-width: 40ch;
+  }
+  @media (max-width: 720px) {
+    #hint, #legend { display: none; }
+    #brand { left: 1.2rem; top: 1.2rem; }
+    #buttons { right: 1.2rem; top: 1.1rem; }
+    #credit { left: 1.2rem; bottom: 1.2rem; }
+    #panel-scroll { padding: 1.6rem 1.4rem 2rem; }
+    .book-inner { display: block; padding: 5rem 1.4rem 5rem; }
+    #book-index { display: none; }
+    body.book #graph { width: 190px; height: 140px; inset: auto 1rem 1rem auto; }
+  }
+</style>
+
+<div id="graph"></div>
+<div id="grain"></div>
+
+<div class="chrome" id="brand">A Dictionary of Agentic&nbsp;Coding<small id="counts"></small></div>
+<div class="chrome" id="buttons">
+  <button class="round" id="view-btn" aria-label="Switch to dictionary view" title="Dictionary view">
+    <svg viewBox="0 0 24 24"><path d="M12 5.5C10.6 4 8.6 3.5 6 3.5c-1 0-2 .15-3 .5v15c1-.35 2-.5 3-.5 2.6 0 4.6.5 6 2 1.4-1.5 3.4-2 6-2 1 0 2 .15 3 .5v-15c-1-.35-2-.5-3-.5-2.6 0-4.6.5-6 2z"/><line x1="12" y1="5.5" x2="12" y2="20.5"/></svg>
+  </button>
+  <button class="round" id="search-btn" aria-label="Search terms" title="Search ( / )">
+    <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+  </button>
+  <button class="round" id="about-btn" aria-label="About this dictionary">i</button>
+</div>
+<div class="chrome" id="search">
+  <input id="search-input" type="search" placeholder="Search terms&hellip;" aria-label="Search terms">
+  <div id="results"></div>
+</div>
+<div class="chrome" id="hint">Drag to orbit &nbsp;&bull;&nbsp; Scroll to zoom &nbsp;&bull;&nbsp; Click a term to read it</div>
+<div class="chrome" id="credit">After <a href="https://www.aicodingdictionary.com/" target="_blank" rel="noopener">Matt Pocock&rsquo;s AI Coding Dictionary</a> &mdash; this one starts where that one stops.</div>
+<div class="chrome" id="legend"></div>
+
+<div id="overlay" hidden>
+  <div id="about">
+    <h2>A Dictionary of Agentic Coding</h2>
+    <p>The vocabulary of running agents on real codebases, one term per entry.</p>
+    <p><a href="https://www.aicodingdictionary.com/" target="_blank" rel="noopener">Matt Pocock&rsquo;s AI Coding Dictionary</a> covers the primitives: tokens, context windows, tool calls, handoffs. This dictionary starts where that one stops. Its terms name what accumulates when agents write most of the code, where their output diverges from intent, the rules that keep it honest, and the written record that carries knowledge between sessions.</p>
+    <p>Each entry defines the term, names the symptom you have probably already hit, and says what to do. Click any term in the map to read it; entries link on first mention.</p>
+  </div>
+</div>
+
+<div id="book">
+  <div class="book-inner">
+    <header class="book-head">
+      <h1>A Dictionary of Agentic Coding</h1>
+      <p class="bh-tag">The vocabulary of running agents on real codebases, one term per entry.</p>
+      <p class="bh-note">After <a href="https://www.aicodingdictionary.com/" target="_blank" rel="noopener">Matt Pocock&rsquo;s AI Coding Dictionary</a> &mdash; this one starts where that one stops. The map in the corner returns you to the graph.</p>
+    </header>
+    <nav id="book-index" aria-label="Terms"></nav>
+    <main id="book-main"></main>
+  </div>
+</div>
+
+<aside id="panel" aria-label="Entry">
+  <button class="round" id="close" aria-label="Close entry">&#10005;</button>
+  <div id="panel-scroll">
+    <p class="p-eyebrow"><span class="sec" id="p-section"></span><span class="n" id="p-count"></span></p>
+    <h2 id="p-term"></h2>
+    <p id="p-gloss"></p>
+    <div class="p-label">Heard in the field</div>
+    <div id="p-usage" class="bubbles"></div>
+    <div class="p-label">The entry</div>
+    <div id="p-body" class="prose"></div>
+    <div class="p-label">Connects to</div>
+    <div id="p-connects"></div>
+  </div>
+  <div id="p-nav">
+    <button id="p-prev"><small>Prev</small><span class="t"></span></button>
+    <button id="p-next"><small>Next</small><span class="t"></span></button>
+  </div>
+</aside>
+
+<script type="importmap">
+  {
+    "imports": {
+      "https://cdn.jsdelivr.net/npm/three@0.161.0/+esm": "https://cdn.jsdelivr.net/npm/three@0.169.0/+esm",
+      "https://cdn.jsdelivr.net/npm/three@0.170.0/+esm": "https://cdn.jsdelivr.net/npm/three@0.169.0/+esm"
+    }
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script type="module">
+  import ForceGraph3D from "https://cdn.jsdelivr.net/npm/3d-force-graph@1.73.6/+esm";
+  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.169.0/+esm";
+
+  const DATA = __DATA__;
+
+  const css = name =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const el = id => document.getElementById(id);
+
+  const terms = [];
+  DATA.forEach((section, si) =>
+    section.entries.forEach(entry =>
+      terms.push({ ...entry, si, section: section.title, number: section.number })
+    )
+  );
+  const bySlug = new Map(terms.map(t => [t.slug, t]));
+  const edges = terms.flatMap(t => t.links.map(target => ({ source: t.slug, target })));
+  const neighbors = new Map(terms.map(t => [t.slug, new Set()]));
+  const degree = Object.fromEntries(terms.map(t => [t.slug, 0]));
+  for (const e of edges) {
+    neighbors.get(e.source).add(e.target);
+    neighbors.get(e.target).add(e.source);
+    degree[e.source]++;
+    degree[e.target]++;
+  }
+
+  el("counts").textContent = `${terms.length} terms \u00B7 ${DATA.length} sections \u00B7 ${edges.length} links`;
+  el("legend").innerHTML = DATA.map(
+    (s, i) => `<span><i class="dot" style="background:var(--s${i + 1})"></i>${s.title}</span>`
+  ).join("") +
+    `<span class="legend-gap"><i class="dot" style="background:var(--muted)"></i>coined here</span>` +
+    `<span><i class="dot square" style="background:var(--muted)"></i>our tools</span>` +
+    `<span><i class="dot ring"></i>borrowed</span>`;
+
+  const dotEl = (si, origin) => {
+    const d = document.createElement("i");
+    d.className =
+      "dot" + (origin === "borrowed" ? " ring" : origin === "project" ? " square" : "");
+    const color = `var(--s${si + 1})`;
+    if (origin === "borrowed") d.style.borderColor = color;
+    else d.style.background = color;
+    return d;
+  };
+
+  const graphEl = el("graph");
+  let selected = null;
+
+  const makeLabel = (text, color, height, opacity) => {
+    const pad = 8;
+    const scale = 4;
+    const font = `600 ${16 * scale}px Archivo, system-ui, sans-serif`;
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.font = font;
+    const w = ctx.measureText(text.toUpperCase()).width + pad * 2 * scale;
+    canvas.width = w;
+    canvas.height = (16 + pad * 2) * scale;
+    ctx.font = font;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = color;
+    ctx.fillText(text.toUpperCase(), w / 2, canvas.height / 2);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({ map: texture, transparent: true, opacity, depthWrite: false })
+    );
+    sprite.scale.set((height * w) / canvas.height, height, 1);
+    return sprite;
+  };
+
+  const makeDot = (color, radius, opacity, origin) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 128;
+    const ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    if (origin === "borrowed") {
+      ctx.lineWidth = 16;
+      ctx.strokeStyle = color;
+      ctx.arc(64, 64, 52, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (origin === "project") {
+      ctx.fillStyle = color;
+      ctx.roundRect(10, 10, 108, 108, 18);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = color;
+      ctx.arc(64, 64, 62, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({ map: texture, transparent: true, opacity, depthWrite: false })
+    );
+    sprite.scale.set(radius * 2, radius * 2, 1);
+    return sprite;
+  };
+
+  const makeNode = node => {
+    const active = !selected || node.id === selected || neighbors.get(selected).has(node.id);
+    const opacity = active ? 1 : 0.12;
+    const radius = 2.6 + degree[node.id] * 0.55;
+    const group = new THREE.Group();
+    group.add(makeDot(css(`--s${node.si + 1}`), radius, opacity, node.origin));
+    const label = makeLabel(
+      node.name,
+      node.id === selected ? css("--accent") : css("--ink"),
+      3.1 + degree[node.id] * 0.22,
+      active ? (selected ? 1 : 0.9) : 0.08
+    );
+    label.position.y = radius + 2.6;
+    group.add(label);
+    return group;
+  };
+
+  const graph = ForceGraph3D()(graphEl)
+    .width(innerWidth)
+    .height(innerHeight)
+    .backgroundColor(css("--paper"))
+    .showNavInfo(false)
+    .warmupTicks(80)
+    .cooldownTime(3000)
+    .graphData({
+      nodes: terms.map(t => ({ id: t.slug, name: t.name ?? t.term, desc: t.desc, si: t.si, origin: t.origin })),
+      links: edges.map(e => ({ ...e })),
+    })
+    .nodeThreeObject(makeNode)
+    .nodeLabel(node => (node.id === selected ? null : node.desc))
+    .linkColor(() => css("--muted"))
+    .linkOpacity(0.55)
+    .linkWidth(0.35)
+    .linkVisibility(l => !!selected && (l.source.id === selected || l.target.id === selected))
+    .onNodeClick(node => select(node.id))
+    .onBackgroundClick(() =>
+      document.body.classList.contains("book") ? setView("map") : deselect()
+    );
+  graph.d3Force("charge").strength(-170);
+
+  const scene = graph.scene();
+  const applyFog = () =>
+    (scene.fog = new THREE.Fog(new THREE.Color(css("--paper")), 260, 900));
+  applyFog();
+
+  let settled = false;
+  graph.onEngineStop(() => {
+    if (settled) return;
+    settled = true;
+    if (location.hash.length > 1 && bySlug.has(location.hash.slice(1)))
+      select(location.hash.slice(1));
+    else graph.zoomToFit(700, 10);
+  });
+
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let controls = { autoRotate: false };
+  const armControls = setInterval(() => {
+    if (!graph.controls()) return;
+    clearInterval(armControls);
+    controls = graph.controls();
+    if (!reduced && !selected) {
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.45;
+      for (const ev of ["pointerdown", "wheel"])
+        graphEl.addEventListener(ev, () => { controls.autoRotate = false; });
+    }
+  }, 100);
+  const mini = () => (matchMedia("(max-width: 720px)").matches ? [190, 140] : [300, 210]);
+  const sizeGraph = () => {
+    const [w, h] = document.body.classList.contains("book")
+      ? mini()
+      : [innerWidth, innerHeight];
+    graph.width(w).height(h);
+  };
+  addEventListener("resize", sizeGraph);
+
+  let bookBuilt = false;
+  const buildBook = () => {
+    bookBuilt = true;
+    const index = el("book-index");
+    const bmain = el("book-main");
+    DATA.forEach((section, si) => {
+      const dot = () => {
+        const d = document.createElement("i");
+        d.className = "dot";
+        d.style.background = `var(--s${si + 1})`;
+        return d;
+      };
+      const group = document.createElement("div");
+      group.className = "bi-group";
+      const label = document.createElement("div");
+      label.className = "bi-label";
+      label.append(dot(), section.title);
+      group.append(label);
+
+      const sec = document.createElement("section");
+      const band = document.createElement("div");
+      band.className = "book-band";
+      const no = document.createElement("span");
+      no.className = "no";
+      no.append(dot(), section.number);
+      const h2 = document.createElement("h2");
+      h2.textContent = section.title;
+      band.append(no, h2);
+      sec.append(band);
+
+      for (const entry of section.entries) {
+        const a = document.createElement("a");
+        a.href = `#e-${entry.slug}`;
+        a.textContent = entry.term;
+        if (entry.origin !== "coined") a.prepend(dotEl(si, entry.origin));
+        group.append(a);
+
+        const art = document.createElement("article");
+        art.className = "entry";
+        art.id = `e-${entry.slug}`;
+        const h3 = document.createElement("h3");
+        h3.textContent = entry.term;
+        if (entry.origin !== "coined") {
+          const loan = document.createElement("span");
+          loan.className = "loan";
+          loan.textContent = entry.origin === "borrowed" ? "borrowed" : "our tool";
+          h3.append(loan);
+        }
+        const gloss = document.createElement("p");
+        gloss.className = "gloss";
+        gloss.innerHTML = marked.parseInline(entry.desc);
+        const body = document.createElement("div");
+        body.className = "prose";
+        body.innerHTML = marked.parse(entry.body);
+        for (const table of body.querySelectorAll("table")) {
+          const scroller = document.createElement("div");
+          scroller.className = "table-scroll";
+          table.replaceWith(scroller);
+          scroller.append(table);
+        }
+        const uLabel = document.createElement("div");
+        uLabel.className = "e-label";
+        uLabel.textContent = "Heard in the field";
+        const usage = document.createElement("div");
+        usage.className = "bubbles";
+        const lines = entry.usage.split(/\n\s*\n/).filter(Boolean);
+        usage.innerHTML = lines
+          .map((line, i) =>
+            `<div class="${i === lines.length - 1 ? "reply" : "said"}">${marked.parseInline(strip(line))}</div>`
+          )
+          .join("");
+        art.append(h3, gloss, body, uLabel, usage);
+        sec.append(art);
+      }
+      index.append(group);
+      bmain.append(sec);
+    });
+    for (const a of bmain.querySelectorAll('a[href^="http"]')) {
+      a.target = "_blank";
+      a.rel = "noopener";
+    }
+    el("book").addEventListener("click", event => {
+      const a = event.target.closest('a[href^="#"]');
+      if (!a) return;
+      event.preventDefault();
+      const slug = a.getAttribute("href").replace(/^#(e-)?/, "");
+      const target = el(`e-${slug}`);
+      if (target)
+        target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    });
+  };
+
+  const viewBtn = el("view-btn");
+  const bookIcon = viewBtn.innerHTML;
+  const mapIcon =
+    '<svg viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="12" cy="5.5" r="2"/><circle cx="18.5" cy="14.5" r="2"/><line x1="7" y1="16.2" x2="11" y2="7.3"/><line x1="13.2" y1="6.9" x2="17.4" y2="13"/></svg>';
+
+  const setView = view => {
+    const book = view === "book";
+    if (book) {
+      if (!bookBuilt) buildBook();
+      deselect();
+      closeSearch();
+      if (!overlay.hidden) overlay.hidden = true;
+    }
+    document.body.classList.toggle("book", book);
+    sizeGraph();
+    setTimeout(() => {
+      if (document.body.classList.contains("book")) {
+        graph.zoomToFit(0, 15);
+        setTimeout(() => {
+          const p = graph.camera().position;
+          graph.cameraPosition(
+            { x: p.x * 0.5, y: p.y * 0.5, z: p.z * 0.5 },
+            { x: 0, y: 0, z: 0 },
+            300
+          );
+        }, 80);
+      } else graph.zoomToFit(400, 10);
+    }, 400);
+    if (!reduced && book) controls.autoRotate = true;
+    viewBtn.innerHTML = book ? mapIcon : bookIcon;
+    viewBtn.title = book ? "Map view" : "Dictionary view";
+    viewBtn.setAttribute(
+      "aria-label",
+      book ? "Switch to map view" : "Switch to dictionary view"
+    );
+    try {
+      localStorage.setItem("dict-view", view);
+    } catch {}
+  };
+  viewBtn.addEventListener("click", () =>
+    setView(document.body.classList.contains("book") ? "map" : "book")
+  );
+
+  const refresh = () => {
+    graph.nodeThreeObject(node => makeNode(node));
+    graph.linkVisibility(l => !!selected && (l.source.id === selected || l.target.id === selected));
+  };
+
+  const panel = el("panel");
+  const strip = s => s.trim().replace(/^["“]/, "").replace(/["”]$/, "");
+
+  const renderPanel = term => {
+    const index = terms.indexOf(term);
+    el("p-section").innerHTML =
+      `<i class="dot" style="background:var(--s${term.si + 1})"></i>`;
+    el("p-section").append(term.section);
+    if (term.origin !== "coined") {
+      const loan = document.createElement("span");
+      loan.className = "loan";
+      loan.textContent = term.origin === "borrowed" ? "borrowed" : "our tool";
+      el("p-section").append(loan);
+    }
+    el("p-count").innerHTML = `<b>${index + 1}</b> / ${terms.length}`;
+    el("p-term").textContent = term.term;
+    el("p-gloss").innerHTML = marked.parseInline(term.desc);
+    const lines = term.usage.split(/\n\s*\n/).filter(Boolean);
+    el("p-usage").innerHTML = lines
+      .map((line, i) =>
+        `<div class="${i === lines.length - 1 ? "reply" : "said"}">${marked.parseInline(strip(line))}</div>`
+      )
+      .join("");
+    el("p-body").innerHTML = marked.parse(term.body);
+    for (const table of el("p-body").querySelectorAll("table")) {
+      const scroller = document.createElement("div");
+      scroller.className = "table-scroll";
+      table.replaceWith(scroller);
+      scroller.append(table);
+    }
+    const connects = [...neighbors.get(term.slug)];
+    el("p-connects").innerHTML = "";
+    for (const slug of connects) {
+      const other = bySlug.get(slug);
+      const chip = document.createElement("button");
+      chip.append(dotEl(other.si, other.origin), other.term);
+      chip.addEventListener("click", () => select(slug));
+      el("p-connects").append(chip);
+    }
+    const prev = terms[(index - 1 + terms.length) % terms.length];
+    const next = terms[(index + 1) % terms.length];
+    el("p-prev").querySelector(".t").textContent = prev.term;
+    el("p-next").querySelector(".t").textContent = next.term;
+    el("p-prev").onclick = () => select(prev.slug);
+    el("p-next").onclick = () => select(next.slug);
+    for (const a of el("p-body").querySelectorAll('a[href^="#"]')) {
+      a.addEventListener("click", event => {
+        event.preventDefault();
+        select(a.getAttribute("href").slice(1));
+      });
+    }
+    for (const a of panel.querySelectorAll('a[href^="http"]')) {
+      a.target = "_blank";
+      a.rel = "noopener";
+    }
+  };
+
+  const flyTo = slug => {
+    const node = graph.graphData().nodes.find(n => n.id === slug);
+    if (!node || node.x === undefined) return;
+    const distance = 170;
+    const len = Math.hypot(node.x, node.y, node.z) || 1;
+    const ratio = 1 + distance / len;
+    graph.cameraPosition(
+      { x: node.x * ratio, y: node.y * ratio, z: node.z * ratio },
+      node,
+      reduced ? 0 : 1100
+    );
+  };
+
+  const select = slug => {
+    const term = bySlug.get(slug);
+    if (!term) return;
+    if (document.body.classList.contains("book")) setView("map");
+    selected = slug;
+    controls.autoRotate = false;
+    history.replaceState(null, "", `#${slug}`);
+    renderPanel(term);
+    panel.classList.add("open");
+    el("panel-scroll").scrollTop = 0;
+    refresh();
+    flyTo(slug);
+    closeSearch();
+  };
+
+  const deselect = () => {
+    if (!selected) return;
+    selected = null;
+    history.replaceState(null, "", location.pathname);
+    panel.classList.remove("open");
+    refresh();
+  };
+  el("close").addEventListener("click", deselect);
+
+  const searchBox = el("search");
+  const searchInput = el("search-input");
+  const results = el("results");
+  const openSearch = () => {
+    searchBox.classList.add("open");
+    searchInput.value = "";
+    results.innerHTML = "";
+    searchInput.focus();
+  };
+  const closeSearch = () => {
+    searchBox.classList.remove("open");
+    results.innerHTML = "";
+  };
+  el("search-btn").addEventListener("click", () =>
+    searchBox.classList.contains("open") ? closeSearch() : openSearch()
+  );
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.trim().toLowerCase();
+    const hits = q
+      ? terms.filter(
+          t => t.term.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q)
+        ).slice(0, 8)
+      : [];
+    results.innerHTML = "";
+    hits.forEach((t, i) => {
+      const b = document.createElement("button");
+      if (i === 0) b.className = "hot";
+      b.append(dotEl(t.si, t.origin), t.term);
+      b.addEventListener("click", () => select(t.slug));
+      results.append(b);
+    });
+  });
+  searchInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      const first = results.querySelector("button");
+      if (first) first.click();
+    }
+    if (event.key === "Escape") closeSearch();
+  });
+
+  const overlay = el("overlay");
+  el("about-btn").addEventListener("click", () => (overlay.hidden = false));
+  overlay.addEventListener("click", event => {
+    if (event.target === overlay) overlay.hidden = true;
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.target === searchInput) return;
+    if (event.key === "/") {
+      event.preventDefault();
+      openSearch();
+    }
+    if (event.key === "Escape") {
+      if (!overlay.hidden) overlay.hidden = true;
+      else if (searchBox.classList.contains("open")) closeSearch();
+      else if (document.body.classList.contains("book")) setView("map");
+      else deselect();
+    }
+    if (selected && event.key === "ArrowRight") el("p-next").click();
+    if (selected && event.key === "ArrowLeft") el("p-prev").click();
+  });
+
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    graph.backgroundColor(css("--paper")).linkColor(() => css("--muted"));
+    applyFog();
+    refresh();
+  });
+
+  document.fonts.load("600 16px Archivo").then(() => refresh());
+  try {
+    if (localStorage.getItem("dict-view") === "book" && location.hash.length <= 1)
+      setView("book");
+  } catch {}
+  window.__graph = graph;
+</script>
