@@ -43,6 +43,6 @@ for heading, terms in g.parse_curriculum(g.CURRICULUM.read_text()):
 
 payload = json.dumps(sections).replace("</", "<\\/")
 html = TEMPLATE.read_text().replace("__DATA__", payload)
-OUTPUT.write_text(html)
+g.atomic_write(OUTPUT, html)
 count = sum(len(s["entries"]) for s in sections)
 print(f"wrote {OUTPUT.name}: {count} entries in {len(sections)} sections")

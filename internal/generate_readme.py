@@ -6,8 +6,10 @@ Usage:
     python3 internal/generate_readme.py --check  # validate only
 """
 
+import os
 import re
 import sys
+import tempfile
 from typing import NoReturn
 from pathlib import Path
 from urllib.parse import unquote
@@ -30,6 +32,15 @@ MIN_WORDS = 200
 def fail(msg) -> NoReturn:
     print(msg, file=sys.stderr)
     sys.exit(1)
+
+
+def atomic_write(path: Path, content: str) -> None:
+    fd, tmp_path = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.")
+    with os.fdopen(fd, "w") as f:
+        f.write(content)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp_path, path)
 
 
 def heading_slug(heading):
@@ -186,8 +197,9 @@ def main():
         "-->\n\n"
     )
     block = "\n".join(parts).rstrip() + "\n"
-    OUTPUT.write_text(
-        banner + template.replace(TOC_MARKER, toc).replace(CURRICULUM_MARKER, block)
+    atomic_write(
+        OUTPUT,
+        banner + template.replace(TOC_MARKER, toc).replace(CURRICULUM_MARKER, block),
     )
     print(f"wrote README.md: {len(seen)} entries in {len(sections)} sections")
 
