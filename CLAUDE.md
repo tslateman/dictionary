@@ -28,7 +28,7 @@ _Usage:_
 "The reply that uses the term correctly."
 ```
 
-Rules the generator enforces: `description` present and under 140 characters; `origin` present, `coined` or `borrowed`, and a borrowed entry carries at least one external attribution link; body plus Usage at least 200 words; every link target exists; each target linked at most once per entry; every entry appears in the Curriculum.
+Rules the generator enforces: `description` present and under 140 characters; `origin` present, `coined`, `project`, or `borrowed`, and a borrowed entry carries at least one external attribution link; body plus Usage at least 200 words; every link target exists; each target linked at most once per entry; every entry appears in the Curriculum.
 
 ## Voice
 
